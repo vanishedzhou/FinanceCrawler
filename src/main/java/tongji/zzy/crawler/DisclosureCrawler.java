@@ -1,4 +1,4 @@
-package edu.tongji.zzy;
+package tongji.zzy.crawler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import us.codecraft.webmagic.pipeline.FilePipeline;
 import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
-public class CnInfoCrawler implements PageProcessor {
+public class DisclosureCrawler implements PageProcessor {
 	private Site site = Site.me().setRetryTimes(5).setSleepTime(10000);
 
 	@Override
@@ -42,7 +42,7 @@ public class CnInfoCrawler implements PageProcessor {
 	}
 
 	public static void main(String[] args) {
-		Spider.create(new CnInfoCrawler())
+		Spider.create(new DisclosureCrawler())
 		.addUrl("https://github.com/vanishedzhou")
 		.addPipeline(new ConsolePipeline())
 //		.addPipeline(new FilePipeline("results"))
@@ -52,3 +52,4 @@ public class CnInfoCrawler implements PageProcessor {
 	}
 
 }
+

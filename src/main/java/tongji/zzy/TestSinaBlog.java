@@ -1,4 +1,4 @@
-package edu.tongji.zzy;
+package tongji.zzy;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;

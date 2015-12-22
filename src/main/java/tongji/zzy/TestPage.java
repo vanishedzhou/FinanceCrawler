@@ -1,7 +1,7 @@
-package edu.tongji.zzy;
+package tongji.zzy;
 
-import edu.tongji.zzy.handler.TestHandlerWithJson;
-import edu.tongji.zzy.model.TestModel;
+import tongji.zzy.handler.TestHandlerWithJson;
+import tongji.zzy.model.TestModel;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Site;

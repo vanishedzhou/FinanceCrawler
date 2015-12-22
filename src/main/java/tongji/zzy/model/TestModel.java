@@ -1,4 +1,4 @@
-package edu.tongji.zzy.model;
+package tongji.zzy.model;
 
 public class TestModel {
 	

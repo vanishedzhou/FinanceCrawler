@@ -1,4 +1,4 @@
-package edu.tongji.zzy;
+package tongji.zzy;
 
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.ConsolePageModelPipeline;
@@ -25,7 +25,7 @@ public class TestPageAnnotationPattern{
 	public static void main(String[] args) {
 		OOSpider.create(Site.me().setSleepTime(1000), new ConsolePageModelPipeline(), TestPageAnnotationPattern.class)
 			.addUrl("http://data.eastmoney.com/notice/")
-			.addPipeline(new JsonFilePipeline("result"))
+//			.addPipeline(new JsonFilePipeline("result"))
 			.thread(5).run(); }
 
 }
