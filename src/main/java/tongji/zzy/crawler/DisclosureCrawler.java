@@ -1,20 +1,16 @@
 package tongji.zzy.crawler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.pipeline.ConsolePipeline;
-import us.codecraft.webmagic.pipeline.FilePipeline;
-import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 public class DisclosureCrawler implements PageProcessor {
 	private Site site = Site.me().setRetryTimes(5).setSleepTime(10000);
+	private static String TARGET_CONTENT_URL = "http://data.eastmoney.com/notice/[0-9]+/\\w+.html";
+	private static String LIST_URL = "http://http://data.eastmoney.com/Notice/Noticelist.aspx?*page=[0-9]+";
 
 	@Override
 	public Site getSite() {
@@ -23,33 +19,31 @@ public class DisclosureCrawler implements PageProcessor {
 
 	@Override
 	public void process(Page page) {
-		String[] itemName = {"companyCode", "infoTitle", "time"};
-		Map<String, String> itemNameXPathMap = new HashMap<>();
-		itemNameXPathMap.put(itemName[0], "//*[@id='ul_a_latest']/li[1]/div[@class='t1']/text()");
-		itemNameXPathMap.put(itemName[1], "//*[@id='ul_a_latest']/li[1]/div[@class='t3']/dd/a/span[1]/text()");
-		itemNameXPathMap.put(itemName[2], "//*[@id='ul_a_latest']/li[1]/div[@class='t3']/dd/a/span[3]/text()");
-		
-//		page.putField("companyCode", page.getHtml().xpath("//ul[@id='ul_a_latest']/li[1]/div[@class='t1']/text()"));
-		page.putField("Name", page.getHtml().xpath("html/body/div[@class='main-content']//h1/span[1]/text()"));
-		page.putField("starredNumber", page.getHtml().xpath("html/body//*[@id='js-pjax-container']/div/div/div[1]/div/a[2]/strong/text()"));
-		page.putField("followingNumber", page.getHtml().xpath("html/body//*[@id='js-pjax-container']/div/div/div[1]/div/a[3]/strong/text()").toString().trim());
-		System.out.println(page.getResultItems().get("followingNumber").toString());
-		
-//		for(int i=0; i<itemName.length; i++) {
-//			page.putField(itemName[i], page.getHtml().xpath(itemNameXPathMap.get(itemName[i])));
-//		}
+		if(page.getUrl().regex(LIST_URL).match()) {
+			System.out.println("This is the list page...");
 
+			//add content urls
+			List<String> targetContentUrls = page.getHtml()
+				.xpath("/html/body/div[@class='mainFrame']//table[@class='tableCont']/tbody")
+				.links().regex(TARGET_CONTENT_URL).all();
+			page.addTargetRequests(targetContentUrls);
+			
+			//add list urls
+			List<String > listUrls = page.getHtml()
+				.xpath("/html/body/div[@class='mainFrame']//div[@class='PageNav']")
+				.links().regex(LIST_URL).all();
+			page.addTargetRequests(listUrls);
+		} else if (page.getUrl().regex(TARGET_CONTENT_URL).match()) {
+			System.out.println("This is the conent page...");
+		}
+		
 	}
 
 	public static void main(String[] args) {
 		Spider.create(new DisclosureCrawler())
-		.addUrl("https://github.com/vanishedzhou")
-		.addPipeline(new ConsolePipeline())
-//		.addPipeline(new FilePipeline("results"))
-		.addPipeline(new JsonFilePipeline("results"))
-		.thread(1) .run();
+			.addUrl("http://data.eastmoney.com/Notice/Noticelist.aspx?type=0&market=all&date=&page=1")
+			.run();
 
 	}
 
 }
-
