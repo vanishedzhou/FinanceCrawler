@@ -17,20 +17,17 @@ public class TestPage implements PageProcessor {
     @Override
     public void process(Page page) {
 //        page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/\\w+/\\w+)").all());
-        page.putField("author", page.getUrl().regex("https://github\\.com/(\\w+).*"));
-        page.putField("name", page.getHtml().xpath("//div[@class='main-content']//h1[@class='vcard-names']/span[@class='vcard-fullname']/text()"));
-//        page.putField("name", page.getHtml().xpath("//h1/span[@itemprop='name']/text()").toString());
-//        page.putField("title", page.getHtml().xpath("html/body/div[@class='mainbox']/div/div/h4/text()").toString());
-//        page.putField("date", page.getHtml().xpath("html/body/div[@class='mainbox']/div/div/h5/text()").toString());
-//        page.putField("content", page.getHtml().xpath("html/body/div[@class='mainbox']/div/div/pre/text()").toString());
+//        page.putField("author", page.getUrl().regex("https://github\\.com/(\\w+).*"));
+//        page.putField("name", page.getHtml().xpath("//div[@class='main-content']//h1[@class='vcard-names']/span[@class='vcard-fullname']/text()"));
+        page.putField("li", page.getHtml().xpath("html/body/div[@class='middle']/div[@class='bulletin-list']/div[@class='ct-content']/div[@id='con-div-a-latest']/ul[@id='ul_a_latest']/li"));
         
+        System.out.println(page.getResultItems().get("li").toString());
 //        if (page.getResultItems().get("title")==null){
 //            //skip this page
 //            page.setSkip(true);
 //        }
-//        page.putField("readme", page.getHtml().xpath("//div[@id='readme']/tidyText()"));
 //        TestHandlerWithJson.convertJavaClassToJsonStream(storeDataToModeClass(page.getResultItems()));
-        TestHandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
+//        TestHandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
     }
     
     public TestModel storeDataToModeClass(ResultItems result) {
@@ -38,12 +35,10 @@ public class TestPage implements PageProcessor {
     	data.setAuthor(result.get("author").toString());
     	data.setName(result.get("name").toString());
     	
-    	
     	System.out.println(data.getAuthor());
     	System.out.println(data.getName());
     	
     	return data;
-    	
     }
 
     @Override
@@ -52,12 +47,7 @@ public class TestPage implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new TestPage()).addUrl("https://github.com/code4craft")
-//        Spider.create(new GithubRepoPageProcessor()).addUrl("http://data.eastmoney.com/notice/20151111/2Wvl2Y5kGQ9T3l.html").thread(5).run();
-//        Spider.create(new TestPage())
-//        .addUrl("http://pdf.dfcfw.com/pdf/H2_AN201511130011403438_1.pdf")
-//        .addPipeline(new ConsolePipeline())
-//        .addPipeline(new FilePipeline("result"))
+        Spider.create(new TestPage()).addUrl("http://www.cninfo.com.cn/cninfo-new/disclosure/szse")
         .thread(5)
         .run();
     }

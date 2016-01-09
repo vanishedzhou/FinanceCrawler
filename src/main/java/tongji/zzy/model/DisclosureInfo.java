@@ -4,6 +4,7 @@ public class DisclosureInfo extends BaseInfo{
 	public String companyCode;
 	public String companySimpleName;
 	public String disclosureCategory;
+
 	public String getCompanyCode() {
 		return companyCode;
 	}

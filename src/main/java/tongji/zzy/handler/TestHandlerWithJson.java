@@ -34,11 +34,11 @@ public class TestHandlerWithJson {
 	}
 	
 	/**
-	 * store the json stream to local file
+	 * store the JSon stream to local file
 	 * @param data
 	 */
 	public static void storeJsonStreamToFile(TestModel data) {
-		//the converted json stream
+		//the converted JSon stream
 		String result = convertJavaClassToJsonStream(data);
 		//the file path
 		String filePath = "f:\\CrawlerResult\\githubInfo.json";
