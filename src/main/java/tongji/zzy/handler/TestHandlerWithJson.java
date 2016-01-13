@@ -16,7 +16,9 @@ public class TestHandlerWithJson {
 
 	/**
 	 * convert java class to JSon stream
-	 * @param data results in java class stereo
+	 * 
+	 * @param data
+	 *            results in java class stereo
 	 * @return JSon value as string
 	 */
 	public static String convertJavaClassToJsonStream(TestModel data) {
@@ -32,28 +34,30 @@ public class TestHandlerWithJson {
 
 		return convertedJsonString;
 	}
-	
+
 	/**
 	 * store the json stream to local file
+	 * 
 	 * @param data
 	 */
 	public static void storeJsonStreamToFile(TestModel data) {
-		//the converted json stream
+		// the converted json stream
 		String result = convertJavaClassToJsonStream(data);
-		//the file path
+		// the file path
 		String filePath = "f:\\CrawlerResult\\githubInfo.json";
 		BufferedReader reader = null;
 		BufferedWriter writer = null;
-		
+
 		try {
 			File file = new File(filePath);
-			if(!file.getParentFile().exists()) file.getParentFile().mkdirs();
+			if (!file.getParentFile().exists())
+				file.getParentFile().mkdirs();
 			reader = new BufferedReader(new StringReader(result));
 			writer = new BufferedWriter(new FileWriter(file));
 			char[] buf = new char[1024];
 			int len;
-			while((len = reader.read(buf)) != -1) {
-				writer.write(buf,0,len);
+			while ((len = reader.read(buf)) != -1) {
+				writer.write(buf, 0, len);
 			}
 			writer.flush();
 			reader.close();
@@ -61,14 +65,14 @@ public class TestHandlerWithJson {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if(reader != null) {
+			if (reader != null) {
 				try {
 					reader.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			if(writer != null) {
+			if (writer != null) {
 				try {
 					writer.close();
 				} catch (IOException e) {
@@ -76,7 +80,7 @@ public class TestHandlerWithJson {
 				}
 			}
 		}
-		
+
 	}
 
 }

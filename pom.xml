@@ -33,6 +33,18 @@
 			<artifactId>webmagic-extension</artifactId>
 			<version>0.5.2</version>
 		</dependency>
+		
+		<dependency>
+    		<groupId>org.seleniumhq.selenium</groupId>
+    		<artifactId>selenium-java</artifactId>
+    		<version>2.33.0</version>
+		</dependency>
+		
+		<dependency>
+		    <artifactId>webmagic-selenium</artifactId>
+		    <groupId>us.codecraft</groupId>
+		    <version>0.5.2</version>
+		</dependency>
 
 	</dependencies>
 </project>

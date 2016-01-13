@@ -15,12 +15,14 @@ public class TestSinaBlog implements PageProcessor {
 
 	@Override
 	public void process(Page page) {
-		if(page.getUrl().regex(URL_LIST).match()) {
+		if (page.getUrl().regex(URL_LIST).match()) {
 			page.addTargetRequests(page.getHtml().xpath("//div[@class='article_blk']").links().regex(URL_POST).all());
 		} else {
-			page.putField("date", page.getHtml().xpath("//div[@id='articlebody']/div[1]/span[@class='time SG_txtc']/text()"));
+			page.putField("date",
+					page.getHtml().xpath("//div[@id='articlebody']/div[1]/span[@class='time SG_txtc']/text()"));
 			page.putField("title", page.getHtml().xpath("//*[@id='articlebody']/div[1]/h2/text()"));
-//			page.putField("content", page.getHtml().xpath("//*[@id='sina_keyword_ad_area2']"));
+			// page.putField("content",
+			// page.getHtml().xpath("//*[@id='sina_keyword_ad_area2']"));
 		}
 
 	}
@@ -31,12 +33,10 @@ public class TestSinaBlog implements PageProcessor {
 	}
 
 	public static void main(String[] args) {
-		Spider.create(new TestSinaBlog())
-		.addUrl("http://blog.sina.com.cn/s/articlelist_1487828712_0_1.html")
-		.addPipeline(new JsonFilePipeline("G:\\CrawlerResult\\"))
-//		.addPipeline(new ConsolePipeline())
-		.thread(3)
-		.run();
+		Spider.create(new TestSinaBlog()).addUrl("http://blog.sina.com.cn/s/articlelist_1487828712_0_1.html")
+				.addPipeline(new JsonFilePipeline("G:\\CrawlerResult\\"))
+				// .addPipeline(new ConsolePipeline())
+				.thread(3).run();
 	}
 
 }
