@@ -1,6 +1,6 @@
 package tongji.zzy;
 
-import tongji.zzy.handler.TestHandlerWithJson;
+import tongji.zzy.handler.HandlerWithJson;
 import tongji.zzy.model.TestModel;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
@@ -38,7 +38,7 @@ public class TestPage implements PageProcessor {
 		// page.putField("readme",
 		// page.getHtml().xpath("//div[@id='readme']/tidyText()"));
 		// TestHandlerWithJson.convertJavaClassToJsonStream(storeDataToModeClass(page.getResultItems()));
-		TestHandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
+		HandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
 	}
 
 

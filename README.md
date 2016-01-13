@@ -1,2 +1,4 @@
 # FinanceCrawler
-crawler for financial info 
+Crawler for financial info 
+
+Integrated with webmagic.

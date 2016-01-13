@@ -13,11 +13,11 @@ public class DisclosureInfo extends BaseInfo {
 		this.companyCode = companyCode;
 	}
 
-	public String getCompanySimpleName() {
+	public String getCompanyName() {
 		return companyName;
 	}
 
-	public void setCompanySimpleName(String companySimpleName) {
+	public void setCompanyName(String companySimpleName) {
 		this.companyName = companySimpleName;
 	}
 
