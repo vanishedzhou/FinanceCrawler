@@ -14,6 +14,7 @@ public class TestPage implements PageProcessor {
 
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
 
+
 	@Override
 	public void process(Page page) {
 		// page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/\\w+/\\w+)").all());
@@ -29,6 +30,7 @@ public class TestPage implements PageProcessor {
 				// page.putField("content",
 				// page.getHtml().xpath("html/body/div[@class='mainbox']/div/div/pre/text()").toString());
 
+
 		// if (page.getResultItems().get("title")==null){
 		// //skip this page
 		// page.setSkip(true);
@@ -38,6 +40,7 @@ public class TestPage implements PageProcessor {
 		// TestHandlerWithJson.convertJavaClassToJsonStream(storeDataToModeClass(page.getResultItems()));
 		TestHandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
 	}
+
 
 	public TestModel storeDataToModeClass(ResultItems result) {
 		TestModel data = new TestModel();
@@ -66,4 +69,5 @@ public class TestPage implements PageProcessor {
 				// .addPipeline(new FilePipeline("result"))
 				.thread(5).run();
 	}
+
 }
