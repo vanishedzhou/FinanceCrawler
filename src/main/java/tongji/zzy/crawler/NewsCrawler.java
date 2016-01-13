@@ -1,7 +1,7 @@
 package tongji.zzy.crawler;
 
 import tongji.zzy.TestPage;
-import tongji.zzy.handler.TestHandlerWithJson;
+import tongji.zzy.handler.HandlerWithJson;
 import tongji.zzy.model.TestModel;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
@@ -25,7 +25,7 @@ public class NewsCrawler implements PageProcessor {
 		// page.setSkip(true);
 		// }
 		// TestHandlerWithJson.convertJavaClassToJsonStream(storeDataToModeClass(page.getResultItems()));
-		TestHandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
+		HandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
 	}
 
 	public TestModel storeDataToModeClass(ResultItems result) {

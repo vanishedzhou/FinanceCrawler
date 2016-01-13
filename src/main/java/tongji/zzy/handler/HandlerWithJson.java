@@ -12,16 +12,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tongji.zzy.model.TestModel;
 
-public class TestHandlerWithJson {
+public class HandlerWithJson {
 
 	/**
 	 * convert java class to JSon stream
 	 * 
-	 * @param data
-	 *            results in java class stereo
+	 * @param data results in java class stereo
 	 * @return JSon value as string
 	 */
-	public static String convertJavaClassToJsonStream(TestModel data) {
+	public static String convertJavaClassToJsonStream(Object data) {
 		ObjectMapper mapper = new ObjectMapper();
 		String convertedJsonString = "";
 

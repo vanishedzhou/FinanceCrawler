@@ -29,6 +29,12 @@
 		</dependency>
 
 		<dependency>
+		    <groupId>us.codecraft</groupId>
+		    <artifactId>webmagic-core</artifactId>
+		    <version>0.5.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>us.codecraft</groupId>
 			<artifactId>webmagic-extension</artifactId>
 			<version>0.5.2</version>
@@ -41,8 +47,8 @@
 		</dependency>
 		
 		<dependency>
-		    <artifactId>webmagic-selenium</artifactId>
 		    <groupId>us.codecraft</groupId>
+		    <artifactId>webmagic-selenium</artifactId>
 		    <version>0.5.2</version>
 		</dependency>
 
