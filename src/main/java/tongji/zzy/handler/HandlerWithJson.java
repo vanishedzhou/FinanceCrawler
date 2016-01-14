@@ -38,7 +38,7 @@ public class HandlerWithJson {
 	 * store the JSon stream to local file
 	 * @param data
 	 */
-	public static void storeJsonStreamToFile(TestModel data) {
+	public static void storeJsonStreamToFile(Object data) {
 		//the converted JSon stream
 		String result = convertJavaClassToJsonStream(data);
 		// the file path
