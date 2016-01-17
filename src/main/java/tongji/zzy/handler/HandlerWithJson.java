@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import tongji.zzy.model.TestModel;
 
 public class HandlerWithJson {
+	private static final String projectWorkingDir = System.getProperty("user.dir");
 
 	/**
 	 * convert java class to JSon stream
@@ -26,7 +27,7 @@ public class HandlerWithJson {
 
 		try {
 			convertedJsonString = mapper.writeValueAsString(data);
-			System.out.println(convertedJsonString);
+//			System.out.println(convertedJsonString);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -38,11 +39,11 @@ public class HandlerWithJson {
 	 * store the JSon stream to local file
 	 * @param data
 	 */
-	public static void storeJsonStreamToFile(Object data) {
+	public static void storeJsonStreamToFile(Object data, String fileName) {
 		//the converted JSon stream
 		String result = convertJavaClassToJsonStream(data);
 		// the file path
-		String filePath = "f:\\CrawlerResult\\githubInfo.json";
+		String filePath = projectWorkingDir + "\\results\\" + fileName;
 		BufferedReader reader = null;
 		BufferedWriter writer = null;
 

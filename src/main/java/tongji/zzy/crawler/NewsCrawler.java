@@ -25,7 +25,7 @@ public class NewsCrawler implements PageProcessor {
 		// page.setSkip(true);
 		// }
 		// TestHandlerWithJson.convertJavaClassToJsonStream(storeDataToModeClass(page.getResultItems()));
-		HandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
+		HandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()), page.getUrl().toString());
 	}
 
 	public TestModel storeDataToModeClass(ResultItems result) {

@@ -38,7 +38,7 @@ public class TestPage implements PageProcessor {
 		// page.putField("readme",
 		// page.getHtml().xpath("//div[@id='readme']/tidyText()"));
 		// TestHandlerWithJson.convertJavaClassToJsonStream(storeDataToModeClass(page.getResultItems()));
-		HandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
+//		HandlerWithJson.storeJsonStreamToFile(storeDataToModeClass(page.getResultItems()));
 	}
 
 
