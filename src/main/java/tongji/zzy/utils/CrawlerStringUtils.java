@@ -1,4 +1,4 @@
-package tongji.zzy.crawler.utils;
+package tongji.zzy.utils;
 
 /**
  * Created by zhouzhiyong on 2016/11/29.

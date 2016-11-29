@@ -1,4 +1,4 @@
-package tongji.zzy;
+package tongji.zzy.tests;
 
 import tongji.zzy.handler.HandlerWithJson;
 import tongji.zzy.model.TestModel;
@@ -6,8 +6,6 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.pipeline.ConsolePipeline;
-import us.codecraft.webmagic.pipeline.FilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 public class TestPage implements PageProcessor {

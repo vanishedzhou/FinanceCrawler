@@ -1,4 +1,4 @@
-package tongji.zzy;
+package tongji.zzy.tests;
 
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.ConsolePageModelPipeline;
@@ -6,8 +6,6 @@ import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.HelpUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
-import us.codecraft.webmagic.pipeline.FilePipeline;
-import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 
 @TargetUrl(value = { "http://data.eastmoney.com/notice/[0-9]+/\\w+.html" })
 @HelpUrl(value = { "http://data.eastmoney.com/notice/" })

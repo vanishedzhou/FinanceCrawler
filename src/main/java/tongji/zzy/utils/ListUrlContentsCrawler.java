@@ -1,4 +1,4 @@
-package tongji.zzy.crawler.utils;
+package tongji.zzy.utils;
 
 import org.slf4j.Logger;
 import tongji.zzy.handler.HandlerWithJson;

@@ -1,4 +1,4 @@
-package tongji.zzy;
+package tongji.zzy.tests;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.LoggerFactory;

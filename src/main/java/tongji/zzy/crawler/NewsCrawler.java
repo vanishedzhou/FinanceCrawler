@@ -1,16 +1,12 @@
 package tongji.zzy.crawler;
 
 import org.slf4j.Logger;
-import tongji.zzy.TestPage;
-import tongji.zzy.crawler.utils.CrawlerDateUtils;
-import tongji.zzy.crawler.utils.CrawlerStringUtils;
-import tongji.zzy.handler.HandlerWithJson;
+import tongji.zzy.utils.CrawlerDateUtils;
+import tongji.zzy.utils.CrawlerStringUtils;
 import tongji.zzy.handler.HandlerWithJson;
 import tongji.zzy.model.NewsInfo;
-import tongji.zzy.model.TestModel;
 import tongji.zzy.resource.FCLog;
 import us.codecraft.webmagic.Page;
-import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
