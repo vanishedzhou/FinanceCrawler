@@ -17,6 +17,7 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 
+@SuppressWarnings("Duplicates")
 public class DisclosureCrawler implements PageProcessor {
 	private static final Logger logger = FCLog.getLogger(DisclosureCrawler.class);
 
