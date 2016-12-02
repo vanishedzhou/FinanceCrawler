@@ -1,6 +1,7 @@
 package tongji.zzy.crawler;
 
 import org.slf4j.Logger;
+import tongji.zzy.transfer.ElasticSearchStorage;
 import tongji.zzy.utils.CrawlerDateUtils;
 import tongji.zzy.utils.CrawlerStringUtils;
 import tongji.zzy.handler.HandlerWithJson;
@@ -26,7 +27,7 @@ public class NewsCrawler implements PageProcessor{
 		Spider.create(new NewsCrawler()).addUrl("http://futures.hexun.com/")
 				// .addPipeline(new ConsolePipeline())
 				// .addPipeline(new FilePipeline("result"))
-				.thread(5)
+				.thread(1)
 				.run();
 	}
 
@@ -58,6 +59,7 @@ public class NewsCrawler implements PageProcessor{
 			System.out.println(jsonString);
 
 			//// TODO: 2016/11/29 store data to es
+			ElasticSearchStorage.esStorage(NewsInfo.index,NewsInfo.type,NewsInfo.document, jsonString);
 		} else {
 			System.out.println("news crawler started......");
 			List<String> todayNewsLinks = page.getHtml()

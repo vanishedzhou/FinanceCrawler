@@ -1,10 +1,19 @@
 package tongji.zzy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class NewsInfo extends BaseInfo {
 	//信息来源（机构、作者）
 	protected String infoSource;
 	//评论
 	protected String comments;
+
+	@JsonIgnore
+	public static final String index = "news";
+	@JsonIgnore
+	public static final String type = "infoSource";
+	@JsonIgnore
+	public static final String document = "infoSection";
 
 	public static void main(String[] args) {
 		NewsInfo newsInfo = new NewsInfo();
