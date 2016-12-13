@@ -6,12 +6,8 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.slf4j.Logger;
 import tongji.zzy.resource.FCLog;
 
-//import static java.net.InetAddress.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
-import static org.elasticsearch.common.xcontent.XContentFactory.*;
-
 
 /**
  * Created by zhouzhiyong on 2016/12/1.
@@ -35,16 +31,22 @@ public class ElasticSearchStorage {
 
     /**
      *
-     * @param jsonFields 存储的数据内容fields （columns）
      * @param index 存储的index（db）
      * @param type 存储的type（table）
      * @param document 存储的document（rows）
+     * @param jsonFields 存储的数据内容fields （columns）
      */
-    public static void esStorage(String jsonFields, String index, String type, String document) {
+    public static void esStorage(String index, String type, String document,String jsonFields) {
         try {
-            IndexResponse response = client.prepareIndex(index, type, document)
-                    .setSource(jsonFields)
-                    .get();
+            if(document==null) {
+                IndexResponse response = client.prepareIndex(index, type)
+                        .setSource(jsonFields)
+                        .get();
+            } else {
+                IndexResponse response = client.prepareIndex(index, type, document)
+                        .setSource(jsonFields)
+                        .get();
+            }
         } catch (Exception e) {
             logger.error("store data to elasticsearch error.",e);
         }
@@ -52,6 +54,6 @@ public class ElasticSearchStorage {
 
     public static void main(String[] args) {
         String jsonStr = "{\"ZZY\":\"is a handsome man\"}";
-        esStorage("test","zzy","1",jsonStr);
+        esStorage(jsonStr,"test","zzy","1");
     }
 }

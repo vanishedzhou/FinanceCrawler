@@ -33,6 +33,7 @@ public class NewsCrawler implements PageProcessor{
 
 	@Override
 	public void process(Page page) {
+		//和讯期货-今日头条
 		if(page.getUrl().regex(contentUrlPattern).match()) {
 			System.out.println("this is a content page...");
 			String titleXPath = "/html/body//div[@class='layout mg articleName']/h1/text()";
@@ -53,13 +54,16 @@ public class NewsCrawler implements PageProcessor{
 			newsInfo.setDate(date);
 			newsInfo.setInfoSource(infoSource);
 			newsInfo.setContent(content);
+			//set typeNewsSource and document
+			newsInfo.typeNewsSource = "hexunFutures";
 
-			//get newinfo entity
+			//get newsinfo entity
 			String jsonString = HandlerWithJson.convertJavaClassToJsonStream(newsInfo);
-			System.out.println(jsonString);
+			logger.info("newsinfo json string: "+jsonString);
+//			System.out.println(jsonString);
 
-			//// TODO: 2016/11/29 store data to es
-			ElasticSearchStorage.esStorage(NewsInfo.index,NewsInfo.type,NewsInfo.document, jsonString);
+			//store data to es
+			ElasticSearchStorage.esStorage(newsInfo.index,newsInfo.typeNewsSource,null, jsonString);
 		} else {
 			System.out.println("news crawler started......");
 			List<String> todayNewsLinks = page.getHtml()

@@ -11,9 +11,9 @@ public class NewsInfo extends BaseInfo {
 	@JsonIgnore
 	public static final String index = "news";
 	@JsonIgnore
-	public static final String type = "infoSource";
+	public String typeNewsSource = "";
 	@JsonIgnore
-	public static final String document = "infoSection";
+	public String documentNewsSection = "";
 
 	public static void main(String[] args) {
 		NewsInfo newsInfo = new NewsInfo();
