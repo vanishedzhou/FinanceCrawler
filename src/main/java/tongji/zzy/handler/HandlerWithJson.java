@@ -6,13 +6,29 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import tongji.zzy.model.NewsInfo;
 import tongji.zzy.model.TestModel;
+import tongji.zzy.utils.CrawlerDateUtils;
 
 public class HandlerWithJson {
+	public static void main(String[] args) {
+		NewsInfo info = new NewsInfo();
+		Date date = CrawlerDateUtils.parseStringToDate("2016-12-15 15:53:00");
+		info.setDate(date);
+		info.setTitle("dateTest");
+
+		System.out.println(convertJavaClassToJsonStream(info));
+	}
 
 	/**
 	 * convert java class to JSon stream
@@ -22,6 +38,9 @@ public class HandlerWithJson {
 	 */
 	public static String convertJavaClassToJsonStream(Object data) {
 		ObjectMapper mapper = new ObjectMapper();
+//		TimeZone timeZone = TimeZone.getTimeZone("UTC+8");
+//		mapper.setTimeZone(timeZone);
+//		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		String convertedJsonString = "";
 
 		try {
