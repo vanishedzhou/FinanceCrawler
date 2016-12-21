@@ -8,7 +8,7 @@ public class BaseInfo {
 	//信息来源地址
 	protected String url;
 	//时间
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "zh", timezone = "GMT+8")
 	protected Date date;
 	//标题
 	protected String title;
