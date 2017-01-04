@@ -26,5 +26,7 @@ public class CrawlerDateUtils {
         Date date = parseStringToDate("2016-11-29 21:42:00");
 
         System.out.println(date);
+
+        CrawlerStringUtils.main(new String[]{});
     }
 }

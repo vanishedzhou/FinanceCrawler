@@ -7,37 +7,10 @@ import java.util.Date;
  */
 public class FuturesInfo {
     /**
-     * 交易参数
+     * 合约信息
      */
     //合约代码
     private String code;
-    // 上市日
-    private Date onMarketDate;
-    // 最新价
-    private double currentPrice;
-    // 涨跌
-    private double changePercentage;
-    // 持仓量
-    private double holdMount;
-    // 成交量
-    private double exchangeMount;
-    //成交金额
-    private double exchangeSum;
-    // 买卖价
-    private double buyInAndOutPrice;
-    // 昨结算
-    private double lastDayPrice;
-    // 开盘
-    private double openedPrice;
-    //最低
-    private double lowestPrice;
-    //最高
-    private double highestPrice;
-
-
-    /**
-     * 合约信息
-     */
     // 到期日
     private Date offMarketDate;
     // 开始交割日
@@ -46,4 +19,44 @@ public class FuturesInfo {
     private Date endOfferDate;
     // 挂牌基准价
     private double basePrice;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Date getOffMarketDate() {
+        return offMarketDate;
+    }
+
+    public void setOffMarketDate(Date offMarketDate) {
+        this.offMarketDate = offMarketDate;
+    }
+
+    public Date getStartOfferDate() {
+        return startOfferDate;
+    }
+
+    public void setStartOfferDate(Date startOfferDate) {
+        this.startOfferDate = startOfferDate;
+    }
+
+    public Date getEndOfferDate() {
+        return endOfferDate;
+    }
+
+    public void setEndOfferDate(Date endOfferDate) {
+        this.endOfferDate = endOfferDate;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
+    }
 }
