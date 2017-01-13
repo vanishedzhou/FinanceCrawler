@@ -1,105 +1,98 @@
 package tongji.zzy.crawler;
 
-import java.sql.Date;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
-
 import tongji.zzy.handler.HandlerWithJson;
 import tongji.zzy.model.DisclosureInfo;
-import tongji.zzy.resource.DisclosureCategory;
+import tongji.zzy.model.NewsInfo;
 import tongji.zzy.resource.FCLog;
-
+import tongji.zzy.transfer.ElasticSearchStorage;
+import tongji.zzy.utils.CrawlerDateUtils;
+import tongji.zzy.utils.CrawlerStringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 @SuppressWarnings("Duplicates")
-public class DisclosureCrawler implements PageProcessor {
+public class DisclosureCrawler implements PageProcessor{
 	private static final Logger logger = FCLog.getLogger(DisclosureCrawler.class);
+	protected String listUrlPattern = "http://data\\.eastmoney\\.com/Notice/Noticelist\\.aspx\\?.*page=\\d+";
+	protected String contentUrlPattern = "http://www\\.shfe\\.com\\.cn/news/notice/\\d+\\.html";
+
+	public static int pageCounts = 0;
 
 	private Site site = Site.me().setRetryTimes(5).setSleepTime(10000);
-	private static String currentDisclosureCategory = "";
-	private static String TARGET_CONTENT_URL = "http://data\\.eastmoney\\.com/notice/\\d+/\\w+.html";
-	private static String LIST_URL = "http://data\\.eastmoney\\.com/Notice/Noticelist\\.aspx\\?.*page=\\d+";
+
+	public static void main(String[] args) {
+		Spider.create(new DisclosureCrawler()).addUrl("http://www.shfe.com.cn/news/notice/index.html")
+				// .addPipeline(new ConsolePipeline())
+				// .addPipeline(new FilePipeline("result"))
+				.thread(1)
+				.run();
+	}
+
+	@Override
+	public void process(Page page) {
+
+		//上期所-公告
+		if(page.getUrl().regex(contentUrlPattern).match()) {
+			System.out.println("this is a content page...");
+			String titleXPath = "/html/body//div[@class='article-detail-text']/h1/text()";
+			String dateXPath = "/html/body//div[@class='article-detail-text']/p[@class='article-date']/text()";
+//			String infoSourceXPath = "/html/body//div[@class='layout mg articleName']//div[@class='clearfix']/div/a/text()";
+			String contentXPath = "/html/body//div[@class='article-detail-text']/p[@style='text-align: left']/text()";
+
+			String title = page.getHtml().xpath(titleXPath).toString();
+			String dateStrRaw = page.getHtml().xpath(dateXPath).toString();
+			String dateStr = CrawlerDateUtils.extractDateContent(dateStrRaw);
+			Date date = CrawlerDateUtils.parseStringToDateSimpleOne(dateStr);
+			String content = page.getHtml().xpath(contentXPath).toString();
+			content = CrawlerStringUtils.removeHtmlElements(content);
+
+			DisclosureInfo disclosureInfo = new DisclosureInfo();
+			disclosureInfo.setUrl(page.getUrl().toString());
+			disclosureInfo.setTitle(title);
+			disclosureInfo.setDate(date);
+			//上期所
+			disclosureInfo.setTypeDisclosureSource("shfeDisclosure");
+			disclosureInfo.setContent(content);
+
+
+			//get newsinfo entity
+			String jsonString = HandlerWithJson.convertJavaClassToJsonStream(disclosureInfo);
+			logger.info("newsinfo json string: "+jsonString);
+//			System.out.println(jsonString);
+
+			//store data to es
+			ElasticSearchStorage.esStorage(disclosureInfo.index,disclosureInfo.typeDisclosureSource,null, jsonString);
+		} else if(page.getUrl().regex("^.*www.shfe.com.cn/news/notice/index\\w*.html$").match()){
+			List<String> disclosureContentUrls =
+					page.getHtml()
+							.xpath("/html/body//div[@class='p4 lawbox']/ul")
+							.links()
+							.regex(contentUrlPattern).all();
+			page.addTargetRequests(disclosureContentUrls);
+
+			//add next page url, first 40 pages
+			if(pageCounts<=40) {
+				String nextPageUrl = page.getHtml()
+					.xpath("/html/body//div[@class='p4 lawbox']/div[@class='page-no']/a[3]")
+					.links().get();
+				page.addTargetRequest(nextPageUrl);
+
+				pageCounts++;
+			}
+
+		}
+
+	}
 
 	@Override
 	public Site getSite() {
 		return site;
 	}
-
-	@Override
-	public void process(Page page) {
-		if (page.getUrl().regex(LIST_URL).match()) {
-			System.out.println("This is the list page...");
-
-			// add content urls
-			List<String> targetContentUrls = page.getHtml()
-					.xpath("/html/body/div[@class='mainFrame']//table[@class='tableCont']/tbody").links()
-					.regex(TARGET_CONTENT_URL).all();
-			page.addTargetRequests(targetContentUrls);
-
-			// add list urls
-			List<String> listUrls = page.getHtml().xpath("/html/body/div[@class='mainFrame']//div[@class='PageNav']")
-					.links().regex(LIST_URL).all();
-			page.addTargetRequests(listUrls);
-		} else if (page.getUrl().regex(TARGET_CONTENT_URL).match()) {
-			System.out.println("This is the conent page...");
-
-			String date_raw = page.getHtml().xpath("html/body//div[@class='content']//h5/text()").toString();
-			Date date = Date.valueOf(date_raw.split("：")[1]);
-			String title = page.getHtml().xpath("html/body//div[@class='content']//h4/text()").toString();
-			String content = page.getHtml().xpath("html/body//div[@class='content']//pre/text()").toString();
-
-			// find companyName and companyCode from content text(first n
-			// characters) using regular expression
-			Pattern pattern = Pattern.compile(".*代码：(\\d+).*简称：(\\S+).*");
-			Matcher matcher = pattern.matcher(content.subSequence(0, Math.min(100, content.length())));
-			String companyCode = "";
-			String companyName = "";
-			if (matcher.find()) {
-				companyCode = matcher.group(1);
-				companyName = matcher.group(2);
-
-			} else {
-				System.out.println("companyCode and companyName not found in the content text.");
-			}
-
-			// create the DisclosureInfo entity
-			DisclosureInfo disclosureInfo = new DisclosureInfo();
-			disclosureInfo.setUrl(page.getUrl().toString());
-			disclosureInfo.setDisclosureCategory(currentDisclosureCategory);
-			disclosureInfo.setDate(date);
-			disclosureInfo.setTitle(title);
-			disclosureInfo.setContent(String.valueOf(content.length()));
-			disclosureInfo.setCompanyCode(companyCode);
-			disclosureInfo.setCompanyName(companyName);
-
-			// convert to JSon string
-			String jsonString = HandlerWithJson.convertJavaClassToJsonStream(disclosureInfo);
-
-		}
-	}
-
-	public static void main(String[] args) {
-		// Spider.create(new DisclosureCrawler())
-		// .addUrl("http://data.eastmoney.com/Notice/Noticelist.aspx?type=1&market=all&date=&page=1")
-		// .run();
-
-		// run different spider according to different disclosure categories
-		for (DisclosureCategory dc : DisclosureCategory.values()) {
-			currentDisclosureCategory = dc.name();
-			Spider.create(new DisclosureCrawler()).addUrl(getSpecifiedDisclosureCategoryUrl(dc.toString())).run();
-		}
-
-	}
-
-	// get different disclosure categories' starting url
-	private static String getSpecifiedDisclosureCategoryUrl(String categoryCode) {
-		return "http://data.eastmoney.com/Notice/Noticelist.aspx?page=&market=all&date=&type=" + categoryCode;
-	}
-
 }
